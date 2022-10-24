@@ -166,7 +166,7 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 	cout << "POLIGONO CONVEXO MAS PEQUENIO: [PUNTOS DADOS EN SENTIDO CONTRARIO A LAS MANECILLAS DEL RELOJ]" << endl;
 
 	for (int i = resultado.size() - 1; i >= 0; i--) {
-		cout << "(" << resultado[i].x << ", " << resultado[i].y << ") ";
+		cout << "(" << resultado[i].x << "," << resultado[i].y << ") ";
 		espacio();
 	}
 
