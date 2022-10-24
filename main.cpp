@@ -1,4 +1,4 @@
-//Programa que: Implementa un algoritmo fundamentado en el escaneo Graham para determinar la Cáscar Convexa dados ciertos puntos.
+//Programa que: Implementa un algoritmo  para determinar la Cáscara Convexa dados ciertos puntos, auxiliándose en el algoritmo de Graham's Scan.
 //Programadores: León Emiliano García Pérez [A00573074], Carla Morales López [A01639225].
 //Fecha de entrega: Domingo 23 de Octubre de 2022.
 
