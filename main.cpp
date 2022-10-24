@@ -201,6 +201,7 @@ int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal,
 		puntos[i] = auxiliar;
 	}
 
+	espacio();
 	cascaraConvexaGraham(puntos, n); //Complejidad Computacional: O(nlogn).
 
 	return 0;
