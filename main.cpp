@@ -147,7 +147,7 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 	pilaResultante.push(puntos[1]);
 	pilaResultante.push(puntos[2]);
 
-	for (int i = 3; i < tamanio; i++) {
+	for (int i = 3; i < tamanio; i++) { //Complejidad Computacional: O(m), siendo m el tamaño del arreglo modificado.
 
 		while (pilaResultante.size() > 1 && direccion(siguientoAlTop(pilaResultante), pilaResultante.top(), puntos[i]) != 2) {
 			pilaResultante.pop();
@@ -174,7 +174,7 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 }
 
 //Función main que ejecuta el programa, no recibe parámetros, retorna un entero [return 0].
-int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal, el emplear el Graham Scan para la creación de la cáscara, se encuentra una complejidad de: O(nlogn).
+int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal, el emplear el Graham Scan para la creación de la cáscara convexa, se encuentra una complejidad de: O(nlogn), debido al método de ordenamiento, siendo n la cantidad de nodos.
 
 	int n;
     espacio();
