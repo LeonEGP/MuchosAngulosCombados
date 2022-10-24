@@ -4,11 +4,7 @@
 
 //Inclusión de librerías
 #include <iostream>
-#include <bits/stdc++.h>
-#include <stack>
-#include <algorithm>
-#include <vector>
-#include <stdlib.h>
+#include <bits/stdc++.h> //Incluye stack, vector, algorithm, stdlib. [Tambien incluye iostream].
 
 //Ajuste a estandar
 using namespace std;
@@ -181,6 +177,7 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal, el emplear el Graham Scan para la creación de la cáscara, se encuentra una complejidad de: O(nlogn).
 
 	int n;
+    espacio();
 	cout << "INGRESE LA CANTIDAD DE PUNTOS: " << endl;
 	cin >> n;
     espacio();
