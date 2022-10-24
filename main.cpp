@@ -4,17 +4,17 @@
 
 //Inclusión de librerías
 #include <iostream>
+#include <bits/stdc++.h>
 #include <stack>
 #include <algorithm>
 #include <vector>
 #include <stdlib.h>
-#include <bits/stdc++.h>
 
 //Ajuste a estandar
 using namespace std;
 
 //Definición de estrucutra Punto
-struct Point {
+struct Punto {
 	int x;
 	int y;
 };
@@ -25,63 +25,76 @@ void espacio() { //Complejidad Computacional: O(1), es una ejecución lineal en 
 }
 
 //Punto global que funciona como auxiliar para realizar un ordenamiento.
-Point p0;
+Punto punto0;
 
-//Función que ayuda a encontrar el Punto siguiente al Top de un Stack, recibe un stack referenciado de Puntos y retorno el Punto siguiente al Top.
-Point nextToTop(stack<Point>& S) { //Complejidad Computacional: O(1). 
-	Point p = S.top();
-	S.pop();
-	Point res = S.top();
-	S.push(p);
-	return res;
+//Función que ayuda a encontrar el punto siguiente al top de un stack, recibe un stack referenciado de puntos y retorno el Punto siguiente al Top.
+Punto siguientoAlTop(stack<Punto>& pila) { //Complejidad Computacional: O(1). 
+
+	Punto punto;
+	Punto resultado;
+
+	punto = pila.top();
+	pila.pop();
+	resultado = pila.top();
+	pila.push(punto);
+
+	return resultado;
 }
 
-//Función que intercambia dos Puntos, recibe la referencia a dos Puntos, no tiene valor de retorno.
-void swap(Point& p1, Point& p2) { //Complejidad Computacional: O(1). 
-	Point temp = p1;
-	p1 = p2;
-	p2 = temp;
+//Función que intercambia dos puntos, recibe la referencia a dos puntos, no tiene valor de retorno.
+void intercambio(Punto& punto1, Punto& punto2) { //Complejidad Computacional: O(1). 
+	
+	Punto auxiliar;
+
+	auxiliar = punto1;
+	punto1 = punto2;
+	punto2 = auxiliar;
 }
 
 //Función que calcula el cuadrado de la distancia entre dos puntos, recibe como parámetro los dos puntos, y retorna el entero de la distancia cuadrada.
-int distSq(Point p1, Point p2) { //Complejidad Computacional: O(1). 
-	return (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y);
+int distanciaCuadrada(Punto punto1, Punto punto2) { //Complejidad Computacional: O(1). 
+	return (punto1.x - punto2.x) * (punto1.x - punto2.x) + (punto1.y - punto2.y) * (punto1.y - punto2.y);
 }
 
-//Función que determina el sentido dados tres Puntos, recibe los tres Puntos y retorna 0 si son colineares, 1 si van al sentido del reloj, 2 si van en contra sentido del reloj.
-int orientation(Point p, Point q, Point r) { //Complejidad Computacional: O(1). 
+//Función que determina el sentido dados tres puntos, recibe los tres puntos y retorna un 0 si es Collinear, 1 si es Dextrógiro (Al sentido del Reloj), 2 si es Levógiro ( Al sentido ContraReloj).
+int direccion(Punto p, Punto q, Punto r) { //Complejidad Computacional: O(1). 
 
-	int val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+	int valor;
 
-	if (val == 0) {
-		return 0; //Collinear
+	valor = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+
+	if (valor == 0) {
+		return 0;
 	}
-	else if (val > 0) {
-		return 1; //Clockwise
+	else if (valor > 0) {
+		return 1;
 	}
 	else {
-		return 2; //Counterclockwise
+		return 2;
 	}
 
 }
 
-//Función auxiliar de comparación para ordenar un arreglo de Puntos, recibe dos apuntadores a constantes void y retorna -1 o 1 según sea el caso.
-int compare(const void* vp1, const void* vp2) { //Complejidad Computacional: O(1). 
+//Función auxiliar de comparación para ordenar un arreglo de puntos respecto al primero, recibe dos apuntadores a constantes void y retorna -1 o 1 según sea el caso.
+int comparar(const void* voidPunto1, const void* voidPunto2) { //Complejidad Computacional: O(1). 
 
-	Point* p1 = (Point*)vp1;
-	Point* p2 = (Point*)vp2;
+	int sentido;
+	Punto* punto1;
+	Punto* punto2;
 
-	int o = orientation(p0, *p1, *p2);
+	punto1 = (Punto*)voidPunto1;
+	punto2 = (Punto*)voidPunto2;
+	sentido = direccion(punto0, *punto1, *punto2);
 
-	if (o == 0) {
-		if (distSq(p0, *p2) >= distSq(p0, *p1)) {
+	if (sentido == 0) {
+		if (distanciaCuadrada(punto0, *punto2) >= distanciaCuadrada(punto0, *punto1)) {
 			return -1;
 		}
 		else {
 			return 1;
 		}
 	}
-	else if (o == 2) {
+	else if (sentido == 2) {
 		return -1;
 	}
 	else {
@@ -89,68 +102,77 @@ int compare(const void* vp1, const void* vp2) { //Complejidad Computacional: O(1
 	}
 }
 
-//Función que imprime la cáscara conveza dado un arreglo de puntos, recibe además la cantidad de puntos, no tiene valor de retorno.
-void convexHull(Point points[], int n) { //Complejidad Computacional: O(nlogn).
+//Función que imprime la cáscara conveza dado un arreglo de puntos, recibe además la cantidad n de puntos, no tiene valor de retorno.
+void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: O(nlogn).
 
-	int ymin = points[0].y, min = 0;
+	int yMinima;
+	int minimo;
+	int tamanio;
+	stack<Punto> pilaResultante;
+	vector<Punto> resultado;
+
+	yMinima = puntos[0].y;
+	minimo = 0;
 
 	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n). 
 
-		int y = points[i].y;
+		int y;
+		y = puntos[i].y;
 
-		if ((y < ymin) || (ymin == y && points[i].x < points[min].x)) {
-			ymin = points[i].y, min = i;
+		if ((y < yMinima) || (yMinima == y && puntos[i].x < puntos[minimo].x)) {
+			yMinima = puntos[i].y;
+			minimo = i;
 		}
 	}
 
-	swap(points[0], points[min]);
-	p0 = points[0];
-	qsort(&points[1], n - 1, sizeof(Point), compare); //Complejidad Computacional: O(nlogn).
-
-	int m = 1;
+	intercambio(puntos[0], puntos[minimo]);
+	punto0 = puntos[0];
+	qsort(&puntos[1], n - 1, sizeof(Punto), comparar); //Complejidad Computacional: O(nlogn).
+	tamanio = 1;
 
 	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n). 
 
-		while (i < n - 1 && orientation(p0, points[i], points[i + 1]) == 0) {
+		while (i < n - 1 && direccion(punto0, puntos[i], puntos[i + 1]) == 0) {
 			i++;
 		}
-		points[m] = points[i];
-		m++;
+		puntos[tamanio] = puntos[i];
+		tamanio++;
 	}
 
-	if (m < 3) {
+	if (tamanio < 3) {
 		espacio();
 		cout << "¡¡¡IMPOSIBLE LA CREACION DE UN POLIGONO CONVEXO!!!";
 		espacio();
-        espacio();
+		espacio();
 		return;
 	}
 
-	stack<Point> S;
-	S.push(points[0]);
-	S.push(points[1]);
-	S.push(points[2]);
+	
+	pilaResultante.push(puntos[0]);
+	pilaResultante.push(puntos[1]);
+	pilaResultante.push(puntos[2]);
 
-	for (int i = 3; i < m; i++) {
+	for (int i = 3; i < tamanio; i++) {
 
-		while (S.size() > 1 && orientation(nextToTop(S), S.top(), points[i]) != 2) //
-			S.pop();
-		S.push(points[i]);
+		while (pilaResultante.size() > 1 && direccion(siguientoAlTop(pilaResultante), pilaResultante.top(), puntos[i]) != 2){
+			pilaResultante.pop();
+        }
+		pilaResultante.push(puntos[i]);
 	}
 
-	vector<Point> result;
+	
 
-	while (!S.empty()) {
-		Point p = S.top();
-		result.push_back(p);
-		S.pop();
+	while (!pilaResultante.empty()) {
+		Punto p = pilaResultante.top();
+		resultado.push_back(p);
+		pilaResultante.pop();
 	}
 
 	espacio();
-	cout << "POLIGONO CONVEXO MAS PEQUENIO: [PUNTOS DADOS EN SENTIDO CONTRARIO AL RELOJ]" << endl;
+	cout << "POLIGONO CONVEXO MAS PEQUENIO: [puntos DADOS EN SENTIDO CONTRARIO AL RELOJ]" << endl;
 
-	for (int i = result.size() - 1; i >= 0; i--) {
-		cout << "(" << result[i].x << ", " << result[i].y << ") ";
+	for (int i = resultado.size() - 1; i >= 0; i--) {
+		cout << "(" << resultado[i].x << ", " << resultado[i].y << ") ";
 		espacio();
 	}
 
@@ -163,15 +185,15 @@ int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal,
 
 	int n;
 
-	cout << "INGRESE LA CANTIDAD DE PUNTOS: " << endl;
+	cout << "INGRESE LA CANTIDAD DE puntos: " << endl;
 	cin >> n;
 
-	Point points[n];
+	Punto puntos[n];
 
 	for (int i = 0; i < n; i++) { //Complejidad Computacional: O(n). 
 		int xCord;
 		int yCord;
-		Point auxiliar;
+		Punto auxiliar;
 		cout << "x" << i + 1 << ": ";
 		cin >> xCord;
 		cout << "y" << i + 1 << ": ";
@@ -179,10 +201,10 @@ int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal,
 
 		auxiliar.x = xCord;
 		auxiliar.y = yCord;
-		points[i] = auxiliar;
+		puntos[i] = auxiliar;
 	}
 
-	convexHull(points, n); //Complejidad Computacional: O(nlogn).
+	cascaraConvexaGraham(puntos, n); //Complejidad Computacional: O(nlogn).
 
 	return 0;
 }
