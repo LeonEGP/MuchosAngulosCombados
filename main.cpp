@@ -13,7 +13,7 @@
 //Ajuste a estandar
 using namespace std;
 
-//Definición de estrucutra Punto
+//Definición de estrucutra Punto.
 struct Punto {
 	int x;
 	int y;
@@ -28,7 +28,7 @@ void espacio() { //Complejidad Computacional: O(1), es una ejecución lineal en 
 Punto punto0;
 
 //Función que ayuda a encontrar el punto siguiente al top de un stack, recibe un stack referenciado de puntos y retorno el Punto siguiente al Top.
-Punto siguientoAlTop(stack<Punto>& pila) { //Complejidad Computacional: O(1). 
+Punto siguientoAlTop(stack<Punto>& pila) { //Complejidad Computacional: O(1), es una ejecución lineal en el contenido de la función.
 
 	Punto punto;
 	Punto resultado;
@@ -42,8 +42,8 @@ Punto siguientoAlTop(stack<Punto>& pila) { //Complejidad Computacional: O(1).
 }
 
 //Función que intercambia dos puntos, recibe la referencia a dos puntos, no tiene valor de retorno.
-void intercambio(Punto& punto1, Punto& punto2) { //Complejidad Computacional: O(1). 
-	
+void intercambio(Punto& punto1, Punto& punto2) { //Complejidad Computacional: O(1), es una ejecución lineal en el contenido de la función.
+
 	Punto auxiliar;
 
 	auxiliar = punto1;
@@ -52,12 +52,12 @@ void intercambio(Punto& punto1, Punto& punto2) { //Complejidad Computacional: O(
 }
 
 //Función que calcula el cuadrado de la distancia entre dos puntos, recibe como parámetro los dos puntos, y retorna el entero de la distancia cuadrada.
-int distanciaCuadrada(Punto punto1, Punto punto2) { //Complejidad Computacional: O(1). 
+int distanciaCuadrada(Punto punto1, Punto punto2) { //Complejidad Computacional: O(1), es una ejecución lineal en el contenido de la función.
 	return (punto1.x - punto2.x) * (punto1.x - punto2.x) + (punto1.y - punto2.y) * (punto1.y - punto2.y);
 }
 
 //Función que determina el sentido dados tres puntos, recibe los tres puntos y retorna un 0 si es Collinear, 1 si es Dextrógiro (Al sentido del Reloj), 2 si es Levógiro ( Al sentido ContraReloj).
-int direccion(Punto p, Punto q, Punto r) { //Complejidad Computacional: O(1). 
+int direccion(Punto p, Punto q, Punto r) { //Complejidad Computacional: O(1), es una ejecución lineal en el contenido de la función.
 
 	int valor;
 
@@ -72,11 +72,10 @@ int direccion(Punto p, Punto q, Punto r) { //Complejidad Computacional: O(1).
 	else {
 		return 2;
 	}
-
 }
 
 //Función auxiliar de comparación para ordenar un arreglo de puntos respecto al primero, recibe dos apuntadores a constantes void y retorna -1 o 1 según sea el caso.
-int comparar(const void* voidPunto1, const void* voidPunto2) { //Complejidad Computacional: O(1). 
+int comparar(const void* voidPunto1, const void* voidPunto2) { //Complejidad Computacional: O(1), es una ejecución lineal en el contenido de la función.
 
 	int sentido;
 	Punto* punto1;
@@ -103,7 +102,7 @@ int comparar(const void* voidPunto1, const void* voidPunto2) { //Complejidad Com
 }
 
 //Función que imprime la cáscara conveza dado un arreglo de puntos, recibe además la cantidad n de puntos, no tiene valor de retorno.
-void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: O(nlogn).
+void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: O(nlogn), siendo n la cantidad de puntos.
 
 	int yMinima;
 	int minimo;
@@ -114,7 +113,7 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 	yMinima = puntos[0].y;
 	minimo = 0;
 
-	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n). 
+	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n), siendo n la cantidad de puntos.
 
 		int y;
 		y = puntos[i].y;
@@ -127,14 +126,15 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 
 	intercambio(puntos[0], puntos[minimo]);
 	punto0 = puntos[0];
-	qsort(&puntos[1], n - 1, sizeof(Punto), comparar); //Complejidad Computacional: O(nlogn).
+	qsort(&puntos[1], n - 1, sizeof(Punto), comparar); //Complejidad Computacional: O(nlogn), siendo n la cantidad de puntos.
 	tamanio = 1;
 
-	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n). 
+	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n), siendo n la cantidad de puntos.
 
 		while (i < n - 1 && direccion(punto0, puntos[i], puntos[i + 1]) == 0) {
 			i++;
 		}
+
 		puntos[tamanio] = puntos[i];
 		tamanio++;
 	}
@@ -147,20 +147,18 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 		return;
 	}
 
-	
 	pilaResultante.push(puntos[0]);
 	pilaResultante.push(puntos[1]);
 	pilaResultante.push(puntos[2]);
 
 	for (int i = 3; i < tamanio; i++) {
 
-		while (pilaResultante.size() > 1 && direccion(siguientoAlTop(pilaResultante), pilaResultante.top(), puntos[i]) != 2){
+		while (pilaResultante.size() > 1 && direccion(siguientoAlTop(pilaResultante), pilaResultante.top(), puntos[i]) != 2) {
 			pilaResultante.pop();
-        }
+		}
+
 		pilaResultante.push(puntos[i]);
 	}
-
-	
 
 	while (!pilaResultante.empty()) {
 		Punto p = pilaResultante.top();
@@ -169,7 +167,7 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 	}
 
 	espacio();
-	cout << "POLIGONO CONVEXO MAS PEQUENIO: [puntos DADOS EN SENTIDO CONTRARIO AL RELOJ]" << endl;
+	cout << "POLIGONO CONVEXO MAS PEQUENIO: [PUNTOS DADOS EN SENTIDO CONTRARIO AL RELOJ]" << endl;
 
 	for (int i = resultado.size() - 1; i >= 0; i--) {
 		cout << "(" << resultado[i].x << ", " << resultado[i].y << ") ";
@@ -177,23 +175,23 @@ void cascaraConvexaGraham(Punto puntos[], int n) { //Complejidad Computacional: 
 	}
 
 	espacio();
-
 }
 
 //Función main que ejecuta el programa, no recibe parámetros, retorna un entero [return 0].
 int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal, el emplear el Graham Scan para la creación de la cáscara, se encuentra una complejidad de: O(nlogn).
 
 	int n;
-
-	cout << "INGRESE LA CANTIDAD DE puntos: " << endl;
+	cout << "INGRESE LA CANTIDAD DE PUNTOS: " << endl;
 	cin >> n;
 
 	Punto puntos[n];
 
 	for (int i = 0; i < n; i++) { //Complejidad Computacional: O(n). 
+
 		int xCord;
 		int yCord;
 		Punto auxiliar;
+
 		cout << "x" << i + 1 << ": ";
 		cin >> xCord;
 		cout << "y" << i + 1 << ": ";
