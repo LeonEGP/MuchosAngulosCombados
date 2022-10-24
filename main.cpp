@@ -19,6 +19,11 @@ struct Point {
 	int y;
 };
 
+//Función que imprime en consola un salto de línea, no recibe parámetros y no tiene valor de retorno.
+void espacio() { //Complejidad Computacional: O(1), es una ejecución lineal en el contenido de la función.
+    cout << endl;
+}
+
 //Punto global que funciona como auxiliar para realizar un ordenamiento.
 Point p0;
 
@@ -86,12 +91,11 @@ int compare(const void* vp1, const void* vp2) { //Complejidad Computacional: O(1
 
 //Función que imprime la cáscara conveza dado un arreglo de puntos, recibe además la cantidad de puntos, no tiene valor de retorno.
 void convexHull(Point points[], int n) { //Complejidad Computacional: O(n). 
-	
 
 	int ymin = points[0].y, min = 0;
 
-	for (int i = 1; i < n; i++) {
-		
+	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n). 
+
 		int y = points[i].y;
 
 		if ((y < ymin) || (ymin == y && points[i].x < points[min].x)) {
@@ -105,17 +109,18 @@ void convexHull(Point points[], int n) { //Complejidad Computacional: O(n).
 
 	int m = 1;
 
-	for (int i = 1; i < n; i++) {
+	for (int i = 1; i < n; i++) { //Complejidad Computacional: O(n). 
 
-		while (i < n - 1 && orientation(p0, points[i], points[i + 1]) == 0){
+		while (i < n - 1 && orientation(p0, points[i], points[i + 1]) == 0) {
 			i++;
-        }
+		}
 		points[m] = points[i];
 		m++;
 	}
 
-	if (m < 3){
-        cout << "IMPOSIBLE "
+	if (m < 3) {
+		cout << "¡¡¡IMPOSIBLE LA CREACION DE UN POLIGONO CONVEXO!!!";
+        espacio();
 		return;
 	}
 
@@ -139,30 +144,38 @@ void convexHull(Point points[], int n) { //Complejidad Computacional: O(n).
 		S.pop();
 	}
 
+	cout << "POLIGONO CONVEXO MAS PEQUENIO: [PUNTOS DADOS EN SENTIDO CONTRARIO AL RELOJ]" << endl;
+
 	for (int i = result.size() - 1; i >= 0; i--) {
 		cout << "(" << result[i].x << ", " << result[i].y << ") ";
-		cout << endl;
+		espacio();
 	}
 
 }
 
-
-int main() {
-    int n;
-    cin >> n;
+//Función main que ejecuta el programa, no recibe parámetros, retorna un entero [return 0].
+int main() { //Complejidad Computacional: O(1). Dentro de esa ejecución lineal, presenta un ciclo for de complejidad O(n).
+	
+	int n;
+	
+	cout << "INGRESE LA CANTIDAD DE PUNTOS: " << endl;
+	cin >> n;
 
 	Point points[n];
 
-    for (int i = 0; i<n; i++){
-        int xCord;
-        int yCord;
-        Point auxiliar;
-        cin >> xCord;
-        cin >> yCord;
-        auxiliar.x = xCord;
-        auxiliar.y = yCord;
-        points[i] = auxiliar;
-    }
+	for (int i = 0; i < n; i++) { //Complejidad Computacional: O(n). 
+		int xCord;
+		int yCord;
+		Point auxiliar;
+		cout << "x" << i+1 << ": " << endl;
+		cin >> xCord;
+		cout << "y" << i + 1 << ": " << endl;
+		cin >> yCord;
+
+		auxiliar.x = xCord;
+		auxiliar.y = yCord;
+		points[i] = auxiliar;
+	}
 
 	convexHull(points, n);
 
